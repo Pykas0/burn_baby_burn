@@ -1,4 +1,4 @@
-package pykaso.burn_baby_burn.common;
+package pykas0.burn_baby_burn.common;
 
 public class CommonProxy {
 

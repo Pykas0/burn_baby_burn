@@ -1,6 +1,6 @@
-package pykaso.burn_baby_burn.client;
+package pykas0.burn_baby_burn.client;
 
-import pykaso.burn_baby_burn.common.CommonProxy;
+import pykas0.burn_baby_burn.common.CommonProxy;
 
 public class ClientProxy extends CommonProxy {
 

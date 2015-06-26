@@ -1,4 +1,4 @@
-package pykaso.burn_baby_burn;
+package pykas0.burn_baby_burn;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 import net.minecraft.block.Block;
 import net.minecraftforge.common.Configuration;
-import pykaso.burn_baby_burn.common.CommonProxy;
+import pykas0.burn_baby_burn.common.CommonProxy;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
