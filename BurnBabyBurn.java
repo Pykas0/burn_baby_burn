@@ -129,24 +129,10 @@ public class BurnBabyBurn {
 
 	private void applyBurningProperties() {
 		for (BurningDefinition def : this.burningDefinitions) {
-			int start = def.idStart;
-			int end = def.idEnd;
-			if (end == 0) {
-				if (!(Block.blocksList[start] == null)) {
-					Block.setBurnProperties(start, def.prop.encouragment,
-							def.prop.flammability);
-				}
-			} else {
-				if (def.idStart < def.idEnd) {
-					int[] ids = new int[def.idEnd - def.idStart];
-					for (int i = 0; i < ids.length; i++) {
-						int cur = def.idStart + i;
-						if (!(Block.blocksList[cur] == null)) {
-							Block.setBurnProperties(cur, def.prop.encouragment,
-									def.prop.flammability);
-						}
-					}
-				}
+			int id = def.id;
+			if (!(Block.blocksList[id] == null)) {
+				Block.setBurnProperties(id, def.prop.encouragment,
+						def.prop.flammability);
 			}
 		}
 	}
