@@ -93,7 +93,7 @@ public class BurnBabyBurn {
 		this.loadBurningProperties();
 		this.applyBurningProperties();
 	}
-	
+
 	private void writeDeafultConfig() {
 		this.lines.add("define-plant(60,100)");
 		this.lines.add("define-leaves(30,60)");
@@ -120,7 +120,7 @@ public class BurnBabyBurn {
 				}
 		}
 	}
-	
+
 	private void loadBurningProperties() {
 		for (String line : this.lines) {
 			this.handleLine(line);
@@ -133,7 +133,8 @@ public class BurnBabyBurn {
 			int end = def.idEnd;
 			if (end == 0) {
 				if (!(Block.blocksList[start] == null)) {
-					Block.setBurnProperties(start, def.prop.encouragment, def.prop.flammability);
+					Block.setBurnProperties(start, def.prop.encouragment,
+							def.prop.flammability);
 				}
 			} else {
 				if (def.idStart < def.idEnd) {
@@ -141,7 +142,8 @@ public class BurnBabyBurn {
 					for (int i = 0; i < ids.length; i++) {
 						int cur = def.idStart + i;
 						if (!(Block.blocksList[cur] == null)) {
-							Block.setBurnProperties(cur, def.prop.encouragment, def.prop.flammability);
+							Block.setBurnProperties(cur, def.prop.encouragment,
+									def.prop.flammability);
 						}
 					}
 				}
@@ -154,34 +156,34 @@ public class BurnBabyBurn {
 			// setup of rule
 			if (line.indexOf("(") > 0
 					&& line.indexOf(")") > (line.length() - 1)) {
-				//cut off left side of string
+				// cut off left side of string
 				String[] substrA = line.split(Pattern.quote("("));
-				//cut off right side of string
+				// cut off right side of string
 				String substrB = substrA[1].split(Pattern.quote(")"))[0];
 				int[] ids;
-				try {
-					String[] strIds = substrB.split(Pattern.quote(","));
-					switch (strIds.length) {
-					case 1:
-						ids = new int[strIds.length];
-						ids[0] = Integer.parseInt(strIds[0]);
-						this.burningDefinitions.add(new BurningDefinition(ids[0], 0, prop))
+				String[] strIds = substrB.split(Pattern.quote(","));
+				ids = new int[strIds.length];
+				for (int i = 0; i < ids.length; i++) {
+					try {
+						ids[i] = Integer.parseInt(strIds[i]);
+						this.burningDefinitions
+								.add(new BurningDefinition(ids[0],
+										this.burningProperties.get(substrA[0])));
+					} catch (NumberFormatException e) {
+						System.out.println("burn_baby_burn: '" + strIds[i]
+								+ "' is invalid block id");
 					}
-					/*if (substrB.indexOf(",") == -1) {
-						ids[0] = Integer.parseInt(substrB);
-						this.burningDefinitions.add(new BurningDefinition(
-								ids[0], 0, this.burningProperties
-										.get(substrA[0])));
-					} else {
-						String[] res = substrB.split(Pattern.quote(","));
-						ids[0] = Integer.parseInt(res[0]);
-						ids[1] = Integer.parseInt(res[1]);
-						this.burningDefinitions.add(new BurningDefinition(
-								ids[0], ids[1], this.burningProperties
-										.get(substrA[0])));
-					}*/
-				} catch (NumberFormatException e) {
 				}
+				/*
+				 * if (substrB.indexOf(",") == -1) { ids[0] =
+				 * Integer.parseInt(substrB); this.burningDefinitions.add(new
+				 * BurningDefinition( ids[0], 0, this.burningProperties
+				 * .get(substrA[0]))); } else { String[] res =
+				 * substrB.split(Pattern.quote(",")); ids[0] =
+				 * Integer.parseInt(res[0]); ids[1] = Integer.parseInt(res[1]);
+				 * this.burningDefinitions.add(new BurningDefinition( ids[0],
+				 * ids[1], this.burningProperties .get(substrA[0]))); }
+				 */
 
 			}
 		} else {
@@ -214,7 +216,7 @@ public class BurnBabyBurn {
 			}
 		}
 	}
-	
+
 	private class BurningDefinition {
 		int id;
 		public BurningProperty prop;
