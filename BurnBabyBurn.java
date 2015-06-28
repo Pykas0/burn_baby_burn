@@ -153,12 +153,21 @@ public class BurnBabyBurn {
 		if (line.indexOf("-") == -1) {
 			// setup of rule
 			if (line.indexOf("(") > 0
-					&& line.indexOf(")") == (line.length() - 1)) {
+					&& line.indexOf(")") > (line.length() - 1)) {
+				//cut off left side of string
 				String[] substrA = line.split(Pattern.quote("("));
+				//cut off right side of string
 				String substrB = substrA[1].split(Pattern.quote(")"))[0];
-				int[] ids = { 0, 0 };
+				int[] ids;
 				try {
-					if (substrB.indexOf(",") == -1) {
+					String[] strIds = substrB.split(Pattern.quote(","));
+					switch (strIds.length) {
+					case 1:
+						ids = new int[strIds.length];
+						ids[0] = Integer.parseInt(strIds[0]);
+						this.burningDefinitions.add(new BurningDefinition(ids[0], 0, prop))
+					}
+					/*if (substrB.indexOf(",") == -1) {
 						ids[0] = Integer.parseInt(substrB);
 						this.burningDefinitions.add(new BurningDefinition(
 								ids[0], 0, this.burningProperties
@@ -170,7 +179,7 @@ public class BurnBabyBurn {
 						this.burningDefinitions.add(new BurningDefinition(
 								ids[0], ids[1], this.burningProperties
 										.get(substrA[0])));
-					}
+					}*/
 				} catch (NumberFormatException e) {
 				}
 
@@ -207,13 +216,11 @@ public class BurnBabyBurn {
 	}
 	
 	private class BurningDefinition {
-		int idStart;
-		int idEnd;
+		int id;
 		public BurningProperty prop;
 
-		public BurningDefinition(int idStart, int idEnd, BurningProperty prop) {
-			this.idStart = idStart;
-			this.idEnd = idEnd;
+		public BurningDefinition(int id, BurningProperty prop) {
+			this.id = id;
 			this.prop = prop;
 		}
 	}
