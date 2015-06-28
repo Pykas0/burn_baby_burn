@@ -36,7 +36,7 @@ public class BurnBabyBurn {
 	@Instance(value = "burn_baby_burn")
 	public static BurnBabyBurn instance;
 
-	@SidedProxy(serverSide = "pykaso.burn_baby_burn.common.CommonProxy", clientSide = "pykaso.burn_baby_burn.client.ClientProxy")
+	@SidedProxy(serverSide = "pykas0.burn_baby_burn.common.CommonProxy", clientSide = "pykas0.burn_baby_burn.client.ClientProxy")
 	public static CommonProxy proxy;
 
 	private File folder;
@@ -101,8 +101,7 @@ public class BurnBabyBurn {
 		this.lines.add("define-planks(5,20)");
 		this.lines.add("define-vine(15,100)");
 		this.lines.add("define-cloth(30,60)");
-		this.lines.add("plant(6)");
-		this.lines.add("plant(37,38)");
+		this.lines.add("plant(6,37,38)");
 		BufferedWriter writer = null;
 		try {
 			writer = new BufferedWriter(new FileWriter(this.config));
@@ -130,9 +129,11 @@ public class BurnBabyBurn {
 	private void applyBurningProperties() {
 		for (BurningDefinition def : this.burningDefinitions) {
 			int id = def.id;
-			if (!(Block.blocksList[id] == null)) {
+			if (Block.blocksList[id] != null) {
 				Block.setBurnProperties(id, def.prop.encouragment,
 						def.prop.flammability);
+				/*System.out.println("burn_baby_burn: rule applied: " + id + ", "
+						+ def.prop.encouragment + ", " + def.prop.flammability);*/
 			}
 		}
 	}
@@ -141,7 +142,7 @@ public class BurnBabyBurn {
 		if (line.indexOf("-") == -1) {
 			// setup of rule
 			if (line.indexOf("(") > 0
-					&& line.indexOf(")") > (line.length() - 1)) {
+					&& line.indexOf(")") == (line.length() - 1)) {
 				// cut off left side of string
 				String[] substrA = line.split(Pattern.quote("("));
 				// cut off right side of string
@@ -149,28 +150,20 @@ public class BurnBabyBurn {
 				int[] ids;
 				String[] strIds = substrB.split(Pattern.quote(","));
 				ids = new int[strIds.length];
+				System.out.println(strIds.length);
 				for (int i = 0; i < ids.length; i++) {
 					try {
 						ids[i] = Integer.parseInt(strIds[i]);
 						this.burningDefinitions
-								.add(new BurningDefinition(ids[0],
+								.add(new BurningDefinition(ids[i],
 										this.burningProperties.get(substrA[0])));
+						/*System.out.println("burn_baby_burn: new rule loaded: "
+								+ substrA[0] + ", " + ids[i]);*/
 					} catch (NumberFormatException e) {
 						System.out.println("burn_baby_burn: '" + strIds[i]
 								+ "' is invalid block id");
 					}
 				}
-				/*
-				 * if (substrB.indexOf(",") == -1) { ids[0] =
-				 * Integer.parseInt(substrB); this.burningDefinitions.add(new
-				 * BurningDefinition( ids[0], 0, this.burningProperties
-				 * .get(substrA[0]))); } else { String[] res =
-				 * substrB.split(Pattern.quote(",")); ids[0] =
-				 * Integer.parseInt(res[0]); ids[1] = Integer.parseInt(res[1]);
-				 * this.burningDefinitions.add(new BurningDefinition( ids[0],
-				 * ids[1], this.burningProperties .get(substrA[0]))); }
-				 */
-
 			}
 		} else {
 			// definition of rule
@@ -197,6 +190,8 @@ public class BurnBabyBurn {
 					int two = Integer.parseInt(substrD[1]);
 					this.burningProperties.put(substrB[0], new BurningProperty(
 							one, two));
+					/*System.out.println("burn_baby_burn: new rule defined: "
+							+ substrB[0] + ", " + one + ", " + two);*/
 				} catch (NumberFormatException e) {
 				}
 			}
