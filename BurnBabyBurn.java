@@ -29,7 +29,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 
-@Mod(modid = "burn_baby_burn", name = "Burn Baby Burn", version = "1.0.0")
+@Mod(modid = "burn_baby_burn", name = "Burn Baby Burn", version = "1.1.0")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true)
 public class BurnBabyBurn {
 
