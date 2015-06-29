@@ -132,8 +132,10 @@ public class BurnBabyBurn {
 			if (Block.blocksList[id] != null) {
 				Block.setBurnProperties(id, def.prop.encouragment,
 						def.prop.flammability);
-				/*System.out.println("burn_baby_burn: rule applied: " + id + ", "
-						+ def.prop.encouragment + ", " + def.prop.flammability);*/
+				/*
+				 * System.out.println("burn_baby_burn: rule applied: " + id +
+				 * ", " + def.prop.encouragment + ", " + def.prop.flammability);
+				 */
 			}
 		}
 	}
@@ -148,32 +150,32 @@ public class BurnBabyBurn {
 				String[] substrA = line.split(Pattern.quote("("));
 				// cut off right side of string
 				String substrB = substrA[1].split(Pattern.quote(")"))[0];
-				int[] ids;
 				String[] strIds = substrB.split(Pattern.quote(","));
-				// if its a block name setup
-				if (strIds.length == 1) {
-					if (strIds[0].startsWith("\"") && strIds[0].endsWith("\"")) {
-						isBlockName = true;
+				// handle each chunk whether it is a number or string
+				for (int i = 0; i < strIds.length; i++) {
+					if (strIds[i].startsWith("\"") && strIds[i].endsWith("\"")) {
+						String name = strIds[i].substring(2,
+								strIds[i].length() - 1);
+						for (int j = 1; j < Block.blocksList.length; j++) {
+							if (Block.blocksList[j] != null) {
+								if (Block.blocksList[j].getUnlocalizedName()
+										.toLowerCase().contains(name)) {
+									this.addBurningDefinition(j, substrA[0]);
+								}
+							}
+						}
+					} else {
+						try {
+							int id = Integer.parseInt(strIds[i]);
+							this.addBurningDefinition(id, substrA[0]);
+						} catch (NumberFormatException e) {
+							System.out
+									.println("burn_baby_burn: '"
+											+ strIds[i]
+											+ "' is invalid input - only numbers ranging from 1 to 4096 or quoted strings are allowed");
+						}
 					}
 				}
-				ids = new int[strIds.length];
-				//System.out.println(strIds.length);
-				if (isBlockName) {
-					
-				} else {
-				for (int i = 0; i < ids.length; i++) {
-					try {
-						ids[i] = Integer.parseInt(strIds[i]);
-						this.burningDefinitions
-								.add(new BurningDefinition(ids[i],
-										this.burningProperties.get(substrA[0])));
-						/*System.out.println("burn_baby_burn: new rule loaded: "
-								+ substrA[0] + ", " + ids[i]);*/
-					} catch (NumberFormatException e) {
-						/*System.out.println("burn_baby_burn: '" + strIds[i]
-								+ "' is invalid block id");*/
-					}
-				}}
 			}
 		} else {
 			// definition of rule
@@ -200,12 +202,19 @@ public class BurnBabyBurn {
 					int two = Integer.parseInt(substrD[1]);
 					this.burningProperties.put(substrB[0], new BurningProperty(
 							one, two));
-					/*System.out.println("burn_baby_burn: new rule defined: "
-							+ substrB[0] + ", " + one + ", " + two);*/
+					/*
+					 * System.out.println("burn_baby_burn: new rule defined: " +
+					 * substrB[0] + ", " + one + ", " + two);
+					 */
 				} catch (NumberFormatException e) {
 				}
 			}
 		}
+	}
+
+	private void addBurningDefinition(int id, String burningPropertyName) {
+		this.burningDefinitions.add(new BurningDefinition(id,
+				this.burningProperties.get(burningPropertyName)));
 	}
 
 	private class BurningDefinition {
