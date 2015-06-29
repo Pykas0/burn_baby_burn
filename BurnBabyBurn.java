@@ -143,14 +143,24 @@ public class BurnBabyBurn {
 			// setup of rule
 			if (line.indexOf("(") > 0
 					&& line.indexOf(")") == (line.length() - 1)) {
+				boolean isBlockName = false;
 				// cut off left side of string
 				String[] substrA = line.split(Pattern.quote("("));
 				// cut off right side of string
 				String substrB = substrA[1].split(Pattern.quote(")"))[0];
 				int[] ids;
 				String[] strIds = substrB.split(Pattern.quote(","));
+				// if its a block name setup
+				if (strIds.length == 1) {
+					if (strIds[0].startsWith("\"") && strIds[0].endsWith("\"")) {
+						isBlockName = true;
+					}
+				}
 				ids = new int[strIds.length];
-				System.out.println(strIds.length);
+				//System.out.println(strIds.length);
+				if (isBlockName) {
+					
+				} else {
 				for (int i = 0; i < ids.length; i++) {
 					try {
 						ids[i] = Integer.parseInt(strIds[i]);
@@ -160,10 +170,10 @@ public class BurnBabyBurn {
 						/*System.out.println("burn_baby_burn: new rule loaded: "
 								+ substrA[0] + ", " + ids[i]);*/
 					} catch (NumberFormatException e) {
-						System.out.println("burn_baby_burn: '" + strIds[i]
-								+ "' is invalid block id");
+						/*System.out.println("burn_baby_burn: '" + strIds[i]
+								+ "' is invalid block id");*/
 					}
-				}
+				}}
 			}
 		} else {
 			// definition of rule
