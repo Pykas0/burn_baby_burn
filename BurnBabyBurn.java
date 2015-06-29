@@ -101,7 +101,8 @@ public class BurnBabyBurn {
 		this.lines.add("define-planks(5,20)");
 		this.lines.add("define-vine(15,100)");
 		this.lines.add("define-cloth(30,60)");
-		this.lines.add("plant(6,37,38)");
+		this.lines.add("plant(\"sapl\")");
+		this.lines.add("vine(37,38)");
 		BufferedWriter writer = null;
 		try {
 			writer = new BufferedWriter(new FileWriter(this.config));
@@ -154,7 +155,7 @@ public class BurnBabyBurn {
 				// handle each chunk whether it is a number or string
 				for (int i = 0; i < strIds.length; i++) {
 					if (strIds[i].startsWith("\"") && strIds[i].endsWith("\"")) {
-						String name = strIds[i].substring(2,
+						String name = strIds[i].substring(1,
 								strIds[i].length() - 1);
 						for (int j = 1; j < Block.blocksList.length; j++) {
 							if (Block.blocksList[j] != null) {
