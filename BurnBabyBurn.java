@@ -102,8 +102,10 @@ public class BurnBabyBurn {
 	this.lines.add("define-vine(15,100)");
 	this.lines.add("define-cloth(30,60)");
 	this.lines.add("define-solid(2,2)");
-	this.lines.add("plant(38,19,32,39,40,59,81,63,86,91,92,99,100,103,104,105,111,127,141,142)");
-	this.lines.add("solid(23,25,26,29,33,54,84,93,94,116,117,130,131,140,144,149,150)");
+	this.lines
+		.add("plant(38,19,32,39,40,59,81,63,86,91,92,99,100,103,104,105,111,127,141,142)");
+	this.lines
+		.add("solid(23,25,26,29,33,54,84,93,94,116,117,130,131,140,144,149,150)");
 	this.lines.add("planks(30,47,50,58,63,65,68,69,72,107,143)");
 	this.lines.add("plant(\"sapl\",\"flower\")");
 	this.lines.add("wood(\"wood\")");
@@ -136,8 +138,16 @@ public class BurnBabyBurn {
 	for (BurningDefinition def : this.burningDefinitions) {
 	    int id = def.id;
 	    if (Block.blocksList[id] != null) {
-		Block.setBurnProperties(id, def.prop.encouragment,
-			def.prop.flammability);
+		try {
+		    System.out.println("burn_baby_burn: rule to be applied: "
+			    + Block.blocksList[id].getUnlocalizedName() + " "
+			    + id + ", " + def.prop.encouragment + ", "
+			    + def.prop.flammability);
+		    Block.setBurnProperties(id, def.prop.encouragment,
+			    def.prop.flammability);
+		} catch (NullPointerException e) {
+		    // TODO - handle NPE
+		}
 		/*
 		 * System.out.println("burn_baby_burn: rule applied: " + id +
 		 * ", " + def.prop.encouragment + ", " + def.prop.flammability);
